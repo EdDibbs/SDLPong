@@ -6,6 +6,7 @@ cGameEngine::cGameEngine()
 {
 	std::cout << "cGameEngine constructing..." << std::endl;
 	m_iFlag = 0;
+	m_bRunning = true;
 
 	//initilize SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -29,7 +30,7 @@ cGameEngine::cGameEngine()
 	}
 
 
-	m_bRunning = true;
+
 }
 
 cGameEngine::~cGameEngine()
@@ -56,6 +57,7 @@ cGameEngine& cGameEngine::operator=(const cGameEngine& rhs)
 void cGameEngine::HandleInput()
 {
 	if (!m_bRunning) return;
+
 
 }
 
