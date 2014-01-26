@@ -15,7 +15,7 @@ cGameEngine::cGameEngine()
 		Quit(1);
 	}
 
-	m_MainWindow = SDL_CreateWindow("SDLPong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, NULL);
+	m_MainWindow = SDL_CreateWindow("SDLPong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, NULL);
 	if (!m_MainWindow)
 	{
 		logSDLError(std::cout, "SDL_CreateWindow");
@@ -29,6 +29,16 @@ cGameEngine::cGameEngine()
 		Quit(3);
 	}
 
+
+	m_PaddlePlayer.h = 40;
+	m_PaddlePlayer.w = 10;
+	m_PaddlePlayer.x = 10;
+	m_PaddlePlayer.y = 0 + 5;
+
+	m_PaddleComp.h = 40;
+	m_PaddleComp.w = 10;
+	m_PaddleComp.x = WINDOW_WIDTH - m_PaddleComp.w - 10;
+	m_PaddleComp.y = 0 + 5;
 
 
 }
@@ -58,17 +68,16 @@ void cGameEngine::HandleInput()
 {
 	if (!m_bRunning) return;
 
-
 }
 
 void cGameEngine::Update()
 {
 	if (!m_bRunning) return;
-
 	//timer ticks and stuff
 	m_uiTicks = SDL_GetTicks();
-	if (m_uiTicks >= 5 * 1000)
-		Quit(0);
+
+
+
 }
 
 void cGameEngine::Render()
@@ -79,14 +88,10 @@ void cGameEngine::Render()
 	SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_Renderer);
 
-	SDL_Rect Rectangle;
-	Rectangle.h = 100;
-	Rectangle.w = 100;
-	Rectangle.x = m_uiTicks / 10;
-	Rectangle.y = 100;
-
 	SDL_SetRenderDrawColor(m_Renderer, 255, 0, 255, 255);
-	SDL_RenderDrawRect(m_Renderer, &Rectangle);
+	SDL_RenderDrawRect(m_Renderer, &m_PaddleComp);
+	SDL_RenderDrawRect(m_Renderer, &m_PaddlePlayer);
+
 
 
 

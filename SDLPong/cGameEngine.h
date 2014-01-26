@@ -1,5 +1,8 @@
 #pragma once
 #include <SDL.h>
+const int WINDOW_WIDTH = 640;
+const int WINDOW_HEIGHT = 480;
+
 
 class cGameEngine
 {
@@ -24,6 +27,9 @@ private:
 	SDL_Window* m_MainWindow;
 
 	Uint32 m_uiTicks;
+
+	SDL_Rect m_PaddlePlayer;
+	SDL_Rect m_PaddleComp;
 
 	int m_iFlag;
 	bool m_bRunning;
