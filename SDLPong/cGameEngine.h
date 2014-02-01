@@ -2,6 +2,9 @@
 #include <SDL.h>
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
+const int PLAYER_MOVE_SPEED = 5;
+enum KEYS{ KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT };
+
 
 
 class cGameEngine
@@ -26,11 +29,14 @@ private:
 	SDL_Renderer* m_Renderer;
 	SDL_Window* m_MainWindow;
 
+	SDL_Event m_Event;
+
 	Uint32 m_uiTicks;
 
 	SDL_Rect m_PaddlePlayer;
 	SDL_Rect m_PaddleComp;
 
+	bool m_Keys[4]; //needs to be updated if entries are added to enum KEYS
 	int m_iFlag;
 	bool m_bRunning;
 };

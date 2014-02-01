@@ -2,6 +2,9 @@
 #include "cGameEngine.h"
 #include "SDLFunctions.h"
 
+
+
+
 cGameEngine::cGameEngine()
 {
 	std::cout << "cGameEngine constructing..." << std::endl;
@@ -68,6 +71,35 @@ void cGameEngine::HandleInput()
 {
 	if (!m_bRunning) return;
 
+	while (SDL_PollEvent(&m_Event))
+	{
+		if (m_Event.type == SDL_QUIT)
+		{
+			Quit(0);
+			return;
+		}
+
+		else if (m_Event.type == SDL_KEYDOWN || m_Event.type == SDL_KEYUP)
+		{
+			bool KeyDown = false;
+			if (m_Event.type == SDL_KEYDOWN)
+				KeyDown = true;
+
+
+			switch (m_Event.key.keysym.sym)
+			{
+			case SDLK_ESCAPE:
+				Quit(0);
+				break;
+			case SDLK_UP:
+				m_Keys[KEY_UP] = KeyDown;
+				break;
+			case SDLK_DOWN:
+				m_Keys[KEY_DOWN] = KeyDown;
+				break;
+			}
+		}
+	}
 }
 
 void cGameEngine::Update()
@@ -77,6 +109,21 @@ void cGameEngine::Update()
 	m_uiTicks = SDL_GetTicks();
 
 
+	if (m_Keys[KEY_UP])
+	{
+		m_PaddlePlayer.y -= PLAYER_MOVE_SPEED;
+	}
+	if (m_Keys[KEY_DOWN])
+	{
+		m_PaddlePlayer.y += PLAYER_MOVE_SPEED;
+	}
+
+
+
+	if (m_PaddlePlayer.y < 0)
+		m_PaddlePlayer.y = 0;
+	else if (m_PaddlePlayer.y + m_PaddlePlayer.h >= WINDOW_HEIGHT)
+		m_PaddlePlayer.y = WINDOW_HEIGHT - m_PaddlePlayer.h;
 
 }
 
