@@ -118,7 +118,10 @@ void cGameEngine::Update()
 		m_PaddlePlayer.y += PLAYER_MOVE_SPEED;
 	}
 
-
+	m_Ball.Update();
+	//get ball location
+	//if ball is too far left, give point to comp
+	//if ball is too far right, give point to player
 
 	if (m_PaddlePlayer.y < 0)
 		m_PaddlePlayer.y = 0;
@@ -139,7 +142,8 @@ void cGameEngine::Render()
 	SDL_RenderDrawRect(m_Renderer, &m_PaddleComp);
 	SDL_RenderDrawRect(m_Renderer, &m_PaddlePlayer);
 
-
+	SDL_SetRenderDrawColor(m_Renderer, 50, 205, 50, 255);
+	SDL_RenderFillRect(m_Renderer, &m_Ball.GetRect());
 
 
 	//render the backbuffer
