@@ -1,11 +1,14 @@
 #include <iostream>
 #include <SDL.h>
 #include "cGameEngine.h"
+#include <stdlib.h>
+#include <time.h>
 
 
 int main(int argc, char **argv){
 
 	int returnFlag = 0;
+	srand((unsigned int) time(NULL));
 
 	cGameEngine* engine = new cGameEngine();
 

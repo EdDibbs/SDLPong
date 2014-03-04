@@ -97,6 +97,9 @@ void cGameEngine::HandleInput()
 			case SDLK_DOWN:
 				m_Keys[KEY_DOWN] = KeyDown;
 				break;
+			case SDLK_b:
+				if (!m_Event.key.repeat) m_Ball.Bounce(true);
+				break;
 			}
 		}
 	}
@@ -118,15 +121,25 @@ void cGameEngine::Update()
 		m_PaddlePlayer.y += PLAYER_MOVE_SPEED;
 	}
 
+
+	if (SDL_HasIntersection(&m_PaddlePlayer, &m_Ball.GetRect()) == SDL_TRUE)
+	{
+		m_Ball.Bounce(true);
+		std::cout << "Bounce." << std::endl;
+		m_Ball.Set(m_PaddlePlayer.x + m_PaddlePlayer.w, m_Ball.GetRect().y);
+	}
+
 	m_Ball.Update();
 	//get ball location
 	//if ball is too far left, give point to comp
 	//if ball is too far right, give point to player
 
+	//limit the player paddle to the screen
 	if (m_PaddlePlayer.y < 0)
 		m_PaddlePlayer.y = 0;
 	else if (m_PaddlePlayer.y + m_PaddlePlayer.h >= WINDOW_HEIGHT)
 		m_PaddlePlayer.y = WINDOW_HEIGHT - m_PaddlePlayer.h;
+
 
 }
 
