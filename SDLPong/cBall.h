@@ -12,7 +12,8 @@ public:
 	void Update();
 	const SDL_Rect GetRect() { return m_Rect; }
 	void Set(int xPos, int yPos) { m_Rect.x = xPos, m_Rect.y = yPos; }
-
+	int GetXDir() { return m_iXdir; }
+	int GetYDir() { return m_iYdir; }
 private:
 	int m_iXvelocity, m_iYvelocity;
 	int m_iXdir, m_iYdir;

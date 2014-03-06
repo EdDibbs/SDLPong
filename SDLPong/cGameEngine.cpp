@@ -122,11 +122,20 @@ void cGameEngine::Update()
 	}
 
 
-	if (SDL_HasIntersection(&m_PaddlePlayer, &m_Ball.GetRect()) == SDL_TRUE)
+	//check bounce off of paddles
+	if ((SDL_HasIntersection(&m_PaddlePlayer, &m_Ball.GetRect()) == SDL_TRUE)
+		&& m_Ball.GetXDir() == -1)
 	{
 		m_Ball.Bounce(true);
 		std::cout << "Bounce." << std::endl;
 		m_Ball.Set(m_PaddlePlayer.x + m_PaddlePlayer.w, m_Ball.GetRect().y);
+	}
+	else if ((SDL_HasIntersection(&m_PaddleComp, &m_Ball.GetRect()) == SDL_TRUE)
+		&& m_Ball.GetXDir() == 1)
+	{
+		m_Ball.Bounce(true);
+		std::cout << "Bounce." << std::endl;
+		m_Ball.Set(m_PaddleComp.x - m_Ball.GetRect().x, m_Ball.GetRect().y);
 	}
 
 	m_Ball.Update();
