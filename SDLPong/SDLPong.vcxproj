@@ -79,6 +79,7 @@
   <ItemGroup>
     <ClInclude Include="cBall.h" />
     <ClInclude Include="cGameEngine.h" />
+    <ClInclude Include="CompPaddle.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="SDLFunctions.h" />
   </ItemGroup>
