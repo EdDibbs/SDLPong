@@ -13,7 +13,7 @@ cBall::cBall()
 	m_Rect.h = 10;
 	m_Rect.w = 10;
 	m_Rect.x = 5;
-	m_Rect.y = 5;
+	m_Rect.y = TOP_OF_PLAYING_FIELD + 5;
 
 }
 
@@ -70,9 +70,9 @@ void cBall::Update()
 		Bounce(true);
 	}
 
-	if (m_Rect.y < 0) //if we go off the top of the screen
+	if (m_Rect.y < TOP_OF_PLAYING_FIELD) //if we go off the top of the screen
 	{
-		m_Rect.y = 0;
+		m_Rect.y = TOP_OF_PLAYING_FIELD;
 		Bounce(false);
 	}
 	else if (m_Rect.y + m_Rect.h > WINDOW_HEIGHT) //if we go off on the bottom of the screen

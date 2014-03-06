@@ -36,12 +36,12 @@ cGameEngine::cGameEngine()
 	m_PaddlePlayer.h = 40;
 	m_PaddlePlayer.w = 10;
 	m_PaddlePlayer.x = 10;
-	m_PaddlePlayer.y = 0 + 5;
+	m_PaddlePlayer.y = TOP_OF_PLAYING_FIELD + 5;
 
 	m_PaddleComp.h = 40;
 	m_PaddleComp.w = 10;
 	m_PaddleComp.x = WINDOW_WIDTH - m_PaddleComp.w - 10;
-	m_PaddleComp.y = 0 + 5;
+	m_PaddleComp.y = TOP_OF_PLAYING_FIELD + 5;
 
 
 }
@@ -121,6 +121,11 @@ void cGameEngine::Update()
 		m_PaddlePlayer.y += PLAYER_MOVE_SPEED;
 	}
 
+	//limit the player paddle to the screen
+	if (m_PaddlePlayer.y < TOP_OF_PLAYING_FIELD)
+		m_PaddlePlayer.y = TOP_OF_PLAYING_FIELD;
+	else if (m_PaddlePlayer.y + m_PaddlePlayer.h >= WINDOW_HEIGHT)
+		m_PaddlePlayer.y = WINDOW_HEIGHT - m_PaddlePlayer.h;
 
 	//check bounce off of paddles
 	if ((SDL_HasIntersection(&m_PaddlePlayer, &m_Ball.GetRect()) == SDL_TRUE)
@@ -143,11 +148,7 @@ void cGameEngine::Update()
 	//if ball is too far left, give point to comp
 	//if ball is too far right, give point to player
 
-	//limit the player paddle to the screen
-	if (m_PaddlePlayer.y < 0)
-		m_PaddlePlayer.y = 0;
-	else if (m_PaddlePlayer.y + m_PaddlePlayer.h >= WINDOW_HEIGHT)
-		m_PaddlePlayer.y = WINDOW_HEIGHT - m_PaddlePlayer.h;
+
 
 
 }
@@ -160,6 +161,13 @@ void cGameEngine::Render()
 	SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_Renderer);
 
+	//draw the background
+	SDL_SetRenderDrawColor(m_Renderer, 255, 255, 255, 255);
+	SDL_RenderDrawLine(m_Renderer, 0, TOP_OF_PLAYING_FIELD, WINDOW_WIDTH, TOP_OF_PLAYING_FIELD);
+
+
+
+	//draw the paddles
 	SDL_SetRenderDrawColor(m_Renderer, 255, 0, 255, 255);
 	SDL_RenderDrawRect(m_Renderer, &m_PaddleComp);
 	SDL_RenderDrawRect(m_Renderer, &m_PaddlePlayer);
