@@ -73,13 +73,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cBall.cpp" />
+    <ClCompile Include="cCompPaddle.cpp" />
     <ClCompile Include="cGameEngine.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cBall.h" />
     <ClInclude Include="cGameEngine.h" />
-    <ClInclude Include="CompPaddle.h" />
+    <ClInclude Include="cCompPaddle.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="SDLFunctions.h" />
   </ItemGroup>

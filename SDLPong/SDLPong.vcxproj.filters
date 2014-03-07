@@ -24,6 +24,9 @@
     <ClCompile Include="cBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cCompPaddle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cGameEngine.h">
@@ -38,7 +41,7 @@
     <ClInclude Include="Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CompPaddle.h">
+    <ClInclude Include="cCompPaddle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

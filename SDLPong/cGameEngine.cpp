@@ -18,7 +18,7 @@ cGameEngine::cGameEngine()
 		Quit(1);
 	}
 
-	m_MainWindow = SDL_CreateWindow("SDLPong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, NULL);
+	m_MainWindow = SDL_CreateWindow("SDLPong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, PongGlobals::WINDOW_WIDTH, PongGlobals::WINDOW_HEIGHT, NULL);
 	if (!m_MainWindow)
 	{
 		logSDLError(std::cout, "SDL_CreateWindow");
@@ -33,15 +33,10 @@ cGameEngine::cGameEngine()
 	}
 
 
-	m_PaddlePlayer.h = 40;
-	m_PaddlePlayer.w = 10;
+	m_PaddlePlayer.h = PongGlobals::PADDLE_HEIGHT;
+	m_PaddlePlayer.w = PongGlobals::PADDLE_WIDTH;
 	m_PaddlePlayer.x = 10;
-	m_PaddlePlayer.y = TOP_OF_PLAYING_FIELD + 5;
-
-	m_PaddleComp.h = 40;
-	m_PaddleComp.w = 10;
-	m_PaddleComp.x = WINDOW_WIDTH - m_PaddleComp.w - 10;
-	m_PaddleComp.y = TOP_OF_PLAYING_FIELD + 5;
+	m_PaddlePlayer.y = PongGlobals::TOP_OF_PLAYING_FIELD + 5;
 
 
 }
@@ -111,39 +106,49 @@ void cGameEngine::Update()
 	//timer ticks and stuff
 	m_uiTicks = SDL_GetTicks();
 
+	m_Ball.Update();
+
+	m_PaddleComp.Update(&m_Ball);
 
 	if (m_Keys[KEY_UP])
 	{
-		m_PaddlePlayer.y -= PLAYER_MOVE_SPEED;
+		m_PaddlePlayer.y -= PongGlobals::PLAYER_MOVE_SPEED;
 	}
 	if (m_Keys[KEY_DOWN])
 	{
-		m_PaddlePlayer.y += PLAYER_MOVE_SPEED;
+		m_PaddlePlayer.y += PongGlobals::PLAYER_MOVE_SPEED;
 	}
 
 	//limit the player paddle to the screen
-	if (m_PaddlePlayer.y < TOP_OF_PLAYING_FIELD)
-		m_PaddlePlayer.y = TOP_OF_PLAYING_FIELD;
-	else if (m_PaddlePlayer.y + m_PaddlePlayer.h >= WINDOW_HEIGHT)
-		m_PaddlePlayer.y = WINDOW_HEIGHT - m_PaddlePlayer.h;
+	if (m_PaddlePlayer.y < PongGlobals::TOP_OF_PLAYING_FIELD)
+		m_PaddlePlayer.y = PongGlobals::TOP_OF_PLAYING_FIELD;
+	else if (m_PaddlePlayer.y + m_PaddlePlayer.h >= PongGlobals::WINDOW_HEIGHT)
+		m_PaddlePlayer.y = PongGlobals::WINDOW_HEIGHT - m_PaddlePlayer.h;
+
+	if (m_PaddleComp.GetRect().y < PongGlobals::TOP_OF_PLAYING_FIELD)
+		m_PaddleComp.SetY(PongGlobals::TOP_OF_PLAYING_FIELD);
+	else if (m_PaddleComp.GetRect().y + m_PaddleComp.GetRect().h >= PongGlobals::WINDOW_HEIGHT)
+		m_PaddleComp.SetY(PongGlobals::WINDOW_HEIGHT - m_PaddleComp.GetRect().h);
+
+
 
 	//check bounce off of paddles
 	if ((SDL_HasIntersection(&m_PaddlePlayer, &m_Ball.GetRect()) == SDL_TRUE)
 		&& m_Ball.GetXDir() == -1)
 	{
 		m_Ball.Bounce(true);
-		std::cout << "Bounce." << std::endl;
+		std::cout << "Player Bounce." << std::endl;
 		m_Ball.Set(m_PaddlePlayer.x + m_PaddlePlayer.w, m_Ball.GetRect().y);
 	}
-	else if ((SDL_HasIntersection(&m_PaddleComp, &m_Ball.GetRect()) == SDL_TRUE)
+	else if ((SDL_HasIntersection(&m_PaddleComp.GetRect(), &m_Ball.GetRect()) == SDL_TRUE)
 		&& m_Ball.GetXDir() == 1)
 	{
 		m_Ball.Bounce(true);
-		std::cout << "Bounce." << std::endl;
-		m_Ball.Set(m_PaddleComp.x - m_Ball.GetRect().x, m_Ball.GetRect().y);
+		std::cout << "Enemy Bounce." << std::endl;
+		m_Ball.Set(m_PaddleComp.GetRect().x - m_Ball.GetRect().w, m_Ball.GetRect().y);
 	}
 
-	m_Ball.Update();
+
 	//get ball location
 	//if ball is too far left, give point to comp
 	//if ball is too far right, give point to player
@@ -163,13 +168,13 @@ void cGameEngine::Render()
 
 	//draw the background
 	SDL_SetRenderDrawColor(m_Renderer, 255, 255, 255, 255);
-	SDL_RenderDrawLine(m_Renderer, 0, TOP_OF_PLAYING_FIELD, WINDOW_WIDTH, TOP_OF_PLAYING_FIELD);
+	SDL_RenderDrawLine(m_Renderer, 0, PongGlobals::TOP_OF_PLAYING_FIELD, PongGlobals::WINDOW_WIDTH, PongGlobals::TOP_OF_PLAYING_FIELD);
 
 
 
 	//draw the paddles
 	SDL_SetRenderDrawColor(m_Renderer, 255, 0, 255, 255);
-	SDL_RenderDrawRect(m_Renderer, &m_PaddleComp);
+	SDL_RenderDrawRect(m_Renderer, &m_PaddleComp.GetRect());
 	SDL_RenderDrawRect(m_Renderer, &m_PaddlePlayer);
 
 	SDL_SetRenderDrawColor(m_Renderer, 50, 205, 50, 255);

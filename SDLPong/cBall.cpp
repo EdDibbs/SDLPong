@@ -13,7 +13,7 @@ cBall::cBall()
 	m_Rect.h = 10;
 	m_Rect.w = 10;
 	m_Rect.x = 5;
-	m_Rect.y = TOP_OF_PLAYING_FIELD + 5;
+	m_Rect.y = PongGlobals::TOP_OF_PLAYING_FIELD + 5;
 
 }
 
@@ -64,20 +64,20 @@ void cBall::Update()
 		m_Rect.x = 0;
 		Bounce(true);
 	}
-	else if (m_Rect.x + m_Rect.w > WINDOW_WIDTH)
+	else if (m_Rect.x + m_Rect.w > PongGlobals::WINDOW_WIDTH)
 	{
-		m_Rect.x = WINDOW_WIDTH - m_Rect.w;
+		m_Rect.x = PongGlobals::WINDOW_WIDTH - m_Rect.w;
 		Bounce(true);
 	}
 
-	if (m_Rect.y < TOP_OF_PLAYING_FIELD) //if we go off the top of the screen
+	if (m_Rect.y < PongGlobals::TOP_OF_PLAYING_FIELD) //if we go off the top of the screen
 	{
-		m_Rect.y = TOP_OF_PLAYING_FIELD;
+		m_Rect.y = PongGlobals::TOP_OF_PLAYING_FIELD;
 		Bounce(false);
 	}
-	else if (m_Rect.y + m_Rect.h > WINDOW_HEIGHT) //if we go off on the bottom of the screen
+	else if (m_Rect.y + m_Rect.h > PongGlobals::WINDOW_HEIGHT) //if we go off on the bottom of the screen
 	{
-		m_Rect.y = WINDOW_HEIGHT - m_Rect.h;
+		m_Rect.y = PongGlobals::WINDOW_HEIGHT - m_Rect.h;
 		Bounce(false);
 	}
 }

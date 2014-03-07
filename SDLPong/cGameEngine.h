@@ -2,6 +2,8 @@
 #include <SDL.h>
 #include "cBall.h"
 #include "Globals.h"
+#include "cCompPaddle.h"
+
 enum KEYS{ KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT };
 
 
@@ -33,7 +35,7 @@ private:
 	Uint32 m_uiTicks;
 
 	SDL_Rect m_PaddlePlayer; //the player's paddle on the left
-	SDL_Rect m_PaddleComp; //the computer's paddle on the right
+	cCompPaddle m_PaddleComp; //the computer's paddle
 	cBall m_Ball; //the game ball
 
 	bool m_Keys[4]; //needs to be updated if entries are added to enum KEYS
