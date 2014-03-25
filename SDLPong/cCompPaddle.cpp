@@ -1,6 +1,7 @@
 #include "cCompPaddle.h"
 #include "Globals.h"
 #include "cBall.h"
+#include <random>
 
 cCompPaddle::cCompPaddle()
 {
@@ -21,13 +22,15 @@ cCompPaddle::cCompPaddle()
 void cCompPaddle::Update(cBall* Ball)
 {
 	SDL_Rect BallRect = Ball->GetRect();
-	int BallXVel = Ball->GetXVel() * Ball->GetXDir();
-	int BallYVel = Ball->GetYVel() * Ball->GetYDir();
+	//int BallXVel = Ball->GetXVel() * Ball->GetXDir();
+	//int BallYVel = Ball->GetYVel() * Ball->GetYDir();
+
+	if (BallRect.x < PongGlobals::WINDOW_WIDTH / 5) return;	//don't bother moving if the ball is on player side
 
 	int PaddleSpeed = PongGlobals::PLAYER_MOVE_SPEED - 1;
-
-	if (m_Rect.y > BallRect.y) m_Rect.y -= PaddleSpeed;
-	else if (m_Rect.y + m_Rect.h < BallRect.y) m_Rect.y += PaddleSpeed;
+	if (rand() % 10 != 0) //don't move occasionally
+		if (m_Rect.y > BallRect.y) m_Rect.y -= PaddleSpeed;
+		else if (m_Rect.y + m_Rect.h < BallRect.y) m_Rect.y += PaddleSpeed;
 
 
 }

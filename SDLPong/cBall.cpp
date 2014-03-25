@@ -45,12 +45,12 @@ void cBall::Bounce(bool xAxis)
 	if (xAxis)
 	{
 		m_iXdir *= -1;
-		m_iXvelocity = 2 + rand() % 3; //TODO: add some randomness here
+		m_iXvelocity = PongGlobals::MIN_BALL_SPEED + rand() % 3; //TODO: add some randomness here
 	}
 	else
 	{
 		m_iYdir *= -1;
-		m_iYvelocity = 2 + rand() % 3;
+		m_iYvelocity = PongGlobals::MIN_BALL_SPEED + rand() % 3;
 	}
 }
 
