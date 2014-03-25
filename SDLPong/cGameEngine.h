@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "cCompPaddle.h"
 
+
 enum KEYS{ KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT };
 
 
@@ -29,7 +30,7 @@ public:
 private:
 	SDL_Renderer* m_Renderer;
 	SDL_Window* m_MainWindow;
-
+	SDL_Surface* m_Numbers[10]; //0-9 images used for rendering the score
 	SDL_Event m_Event;
 
 	Uint32 m_uiTicks;

@@ -3,6 +3,7 @@
 #include "cBall.h"
 #include <random>
 
+
 cCompPaddle::cCompPaddle()
 {
 	//m_PaddlePlayer.h = 40;

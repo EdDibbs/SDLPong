@@ -1,9 +1,8 @@
 #include <iostream>
 #include "cGameEngine.h"
 #include "SDLFunctions.h"
-
-
-
+#include <SDL_image.h>
+#include <sstream>
 
 cGameEngine::cGameEngine()
 {
@@ -27,13 +26,22 @@ cGameEngine::cGameEngine()
 		Quit(2);
 	}
 
-	m_Renderer = SDL_CreateRenderer(m_MainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC); 
+	m_Renderer = SDL_CreateRenderer(m_MainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (!m_Renderer)
 	{
 		logSDLError(std::cout, "SDL_CreateRenderer");
 		Quit(3);
 	}
+	
+	for (int i = 0; i <= 9; i++)
+	{
+		std::string path;
+		std::stringstream sstm;
 
+		sstm << i << ".png";
+
+		m_Numbers[i] = IMG_Load(".png");
+	}
 
 	m_PaddlePlayer.h = PongGlobals::PADDLE_HEIGHT;
 	m_PaddlePlayer.w = PongGlobals::PADDLE_WIDTH;
@@ -194,7 +202,7 @@ void cGameEngine::Render()
 
 	SDL_SetRenderDrawColor(m_Renderer, 50, 205, 50, 255);
 	SDL_RenderFillRect(m_Renderer, &m_Ball.GetRect());
-
+	
 
 	//render the backbuffer
 	SDL_RenderPresent(m_Renderer);
@@ -204,7 +212,6 @@ void cGameEngine::Quit(int Flag)
 {
 	SDL_DestroyRenderer(m_Renderer);
 	SDL_DestroyWindow(m_MainWindow);
-
 
 	m_iFlag = Flag;
 	m_bRunning = false;
