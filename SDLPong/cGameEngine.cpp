@@ -38,9 +38,13 @@ cGameEngine::cGameEngine()
 		std::string path;
 		std::stringstream sstm;
 
-		sstm << i << ".png";
+		sstm <<"numbers/" << i << ".png";
 
-		m_Numbers[i] = IMG_Load(".png");
+		m_Numbers[i] = IMG_Load(sstm.str().c_str());
+		if (!m_Numbers[i]) {
+			printf("IMG_Load: %s\n", IMG_GetError());
+			
+		}
 	}
 
 	m_PaddlePlayer.h = PongGlobals::PADDLE_HEIGHT;
@@ -142,7 +146,8 @@ void cGameEngine::Update()
 
 	//get ball location
 	//if ball is too far left, give point to comp
-	if (m_Ball.GetRect().x < 0)
+	if (m_Ball.GetRect().x < 0 
+		&& m_Ball.GetXDir() == -1)
 	{
 		m_iScoreComp++;
 		std::cout << "Computer scored! Current score: " << m_iScoreComp << std::endl;
@@ -150,7 +155,8 @@ void cGameEngine::Update()
 		m_Ball.Bounce(true);
 	}
 	//if ball is too far right, give point to player
-	else if (m_Ball.GetRect().x + m_Ball.GetRect().w > PongGlobals::WINDOW_WIDTH)
+	else if (m_Ball.GetRect().x + m_Ball.GetRect().w > PongGlobals::WINDOW_WIDTH 
+		&& m_Ball.GetXDir() == 1)
 	{
 		m_iScorePlayer++;
 		std::cout << "Player scored! Current score:  " << m_iScorePlayer << std::endl;
@@ -203,7 +209,16 @@ void cGameEngine::Render()
 	SDL_SetRenderDrawColor(m_Renderer, 50, 205, 50, 255);
 	SDL_RenderFillRect(m_Renderer, &m_Ball.GetRect());
 	
+	//render the player score
+	SDL_Texture* ScoreTexture = SDL_CreateTextureFromSurface(m_Renderer, m_Numbers[m_iScorePlayer % 10]);
+	renderTexture(ScoreTexture, m_Renderer, 15, 10);
+	SDL_DestroyTexture(ScoreTexture);
 
+	//render the comp score
+	ScoreTexture = SDL_CreateTextureFromSurface(m_Renderer, m_Numbers[m_iScoreComp % 10]);
+	renderTexture(ScoreTexture, m_Renderer, PongGlobals::WINDOW_WIDTH - 49 - 15, 10);
+
+	SDL_DestroyTexture(ScoreTexture);
 	//render the backbuffer
 	SDL_RenderPresent(m_Renderer);
 }
