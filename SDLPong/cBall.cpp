@@ -59,16 +59,16 @@ void cBall::Update()
 	m_Rect.x += (int)m_iXvelocity * m_iXdir;
 	m_Rect.y += (int)m_iYvelocity * m_iYdir;
 	
-	if (m_Rect.x < 0)
-	{
-		m_Rect.x = 0;
-		Bounce(true);
-	}
-	else if (m_Rect.x + m_Rect.w > PongGlobals::WINDOW_WIDTH)
-	{
-		m_Rect.x = PongGlobals::WINDOW_WIDTH - m_Rect.w;
-		Bounce(true);
-	}
+	//if (m_Rect.x < 0)
+	//{
+	//	m_Rect.x = 0;
+	//	Bounce(true);
+	//}
+	//else if (m_Rect.x + m_Rect.w > PongGlobals::WINDOW_WIDTH)
+	//{
+	//	m_Rect.x = PongGlobals::WINDOW_WIDTH - m_Rect.w;
+	//	Bounce(true);
+	//}
 
 	if (m_Rect.y < PongGlobals::TOP_OF_PLAYING_FIELD) //if we go off the top of the screen
 	{

@@ -10,6 +10,8 @@ cGameEngine::cGameEngine()
 	std::cout << "cGameEngine constructing..." << std::endl;
 	m_iFlag = 0;
 	m_bRunning = true;
+	m_iScorePlayer = 0;
+	m_iScoreComp = 0;
 
 	//initilize SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -130,6 +132,22 @@ void cGameEngine::Update()
 	else if (m_PaddleComp.GetRect().y + m_PaddleComp.GetRect().h >= PongGlobals::WINDOW_HEIGHT)
 		m_PaddleComp.SetY(PongGlobals::WINDOW_HEIGHT - m_PaddleComp.GetRect().h);
 
+	//get ball location
+	//if ball is too far left, give point to comp
+	if (m_Ball.GetRect().x < 0)
+	{
+		m_iScoreComp++;
+		std::cout << "Computer scored! Current score: " << m_iScoreComp << std::endl;
+
+		m_Ball.Bounce(true);
+	}
+	//if ball is too far right, give point to player
+	else if (m_Ball.GetRect().x + m_Ball.GetRect().w > PongGlobals::WINDOW_WIDTH)
+	{
+		m_iScorePlayer++;
+		std::cout << "Player scored! Current score:  " << m_iScorePlayer << std::endl;
+		m_Ball.Bounce(true);
+	}
 
 
 	//check bounce off of paddles
@@ -149,9 +167,6 @@ void cGameEngine::Update()
 	}
 
 
-	//get ball location
-	//if ball is too far left, give point to comp
-	//if ball is too far right, give point to player
 
 
 

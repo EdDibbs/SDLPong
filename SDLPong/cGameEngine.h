@@ -38,6 +38,7 @@ private:
 	cCompPaddle m_PaddleComp; //the computer's paddle
 	cBall m_Ball; //the game ball
 
+	int m_iScorePlayer, m_iScoreComp;
 	bool m_Keys[4]; //needs to be updated if entries are added to enum KEYS
 	int m_iFlag;
 	bool m_bRunning;
